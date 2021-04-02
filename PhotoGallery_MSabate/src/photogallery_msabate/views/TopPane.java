@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 
 /**
@@ -23,19 +24,26 @@ public class TopPane extends HBox
 {
    // private DirectoryChooser dir;
     private Button selectDir = new Button();
+    private Text url = new Text("No hay ninguna ruta seleccionada");
     public TopPane(String title){
         Image img = new Image("photogallery_msabate\\img\\icons\\Selectfolder.png");
         ImageView view = new ImageView(img);
         view.setFitHeight(30);
         view.setPreserveRatio(true);
         selectDir.setGraphic(view);
-        getChildren().add(selectDir);
+        getChildren().addAll(selectDir, url);
     }
 
    
             
     public Button getSelectDir() {
         return selectDir;
+    }
+    
+    public void actualizarRuta(String r){
+        getChildren().remove(url);
+        url.setText(r);
+        getChildren().add(url);
     }
     
     

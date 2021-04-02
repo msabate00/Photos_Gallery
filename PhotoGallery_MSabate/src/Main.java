@@ -15,8 +15,12 @@ public class Main extends Application {
         Controller c = new Controller(m, v, primaryStage);
         c.initController();
 
-        primaryStage.setTitle("MVC");
-        primaryStage.setScene(new Scene(v.getRootPane(), 300, 200));
+        primaryStage.setTitle("Photo Viewer By Marti Sabaté");
+        Scene scene = new Scene(v.getRootPane(), 300, 200);
+        
+        scene.getStylesheets().add("photogallery_msabate/views/styles/centerPane.css");
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 

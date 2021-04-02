@@ -4,11 +4,15 @@ package photogallery_msabate.controllers;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import photogallery_msabate.models.Model;
+import photogallery_msabate.views.CenterPane;
 import photogallery_msabate.views.View;
 
 public class Controller {
@@ -25,7 +29,7 @@ public class Controller {
     }
 
     public void initView() {
-        carregarRegistre();
+      
     }
 
     public void initController() {
@@ -35,29 +39,25 @@ public class Controller {
 
             @Override
             public void handle(ActionEvent t) {
-                mostrarExplorador();
+                try {
+                    mostrarExplorador();
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
     }
-
-    private void carregarRegistre() {
-       
-    }
-
-    private void guardarRegistre() {
-//        model.setNom(view.getNomTextField().getText());
-//        model.setPrimerCognom(view.getPrimerCognomTextField().getText());
-//        model.setSegonCognom(view.getSegonCognomTextField().getText());
-    }
     
-    private void mostrarExplorador(){
+    private void mostrarExplorador() throws IOException{
         final DirectoryChooser directoryChooser =  new DirectoryChooser();
         final File selectedDirectory = directoryChooser.showDialog(stage);
         
         if (selectedDirectory != null) {
             selectedDirectory.getAbsolutePath();
-            System.out.println(selectedDirectory.getAbsolutePath());
+            view.getRootPane().setCenter(new CenterPane(selectedDirectory));
+            view.getTopPane().actualizarRuta(selectedDirectory.getPath());
+            
         }
     }
 }
