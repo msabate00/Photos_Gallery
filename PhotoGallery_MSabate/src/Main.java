@@ -9,9 +9,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+      
         Model m = new Model("Armando", "Bronca", "Segura");
         View v = new View();
-        Controller c = new Controller(m, v);
+        Controller c = new Controller(m, v, primaryStage);
         c.initController();
 
         primaryStage.setTitle("MVC");
