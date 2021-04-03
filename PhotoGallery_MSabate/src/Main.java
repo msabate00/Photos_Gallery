@@ -1,3 +1,4 @@
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -8,7 +9,7 @@ import photogallery_msabate.views.View;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
       
         Model m = new Model("Armando", "Bronca", "Segura");
         View v = new View();
