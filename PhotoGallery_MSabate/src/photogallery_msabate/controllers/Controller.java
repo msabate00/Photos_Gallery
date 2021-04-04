@@ -1,6 +1,8 @@
 package photogallery_msabate.controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,8 +12,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import photogallery_msabate.models.Img;
@@ -66,25 +70,11 @@ public class Controller {
                 }
             }
         });
-
-       for(Img i : view.getScrollPane().getAllImg()){
-           
-           
-           i.but.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
-           
-               @Override
-               public void handle(MouseEvent t) {
-                   view.getRootPane().setRight(new RightPane(i));
-                   System.out.print(i.name);
-               }
-           });
-          
-       } 
-        
-       // view.getScrollPane().getAllImg()
         
         
     }
+    
+   
 
     private void mostrarExplorador() throws IOException {
         final DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -96,7 +86,35 @@ public class Controller {
             view.setCenterPane(cp);
             //view.getCenterPane().actualizar(selectedDirectory);
             view.getTopPane().actualizarRuta(selectedDirectory.getPath());
+            //UpdateController();
+            
+            
+            for(Img i : view.getScrollPane().getAllImg()){
+                System.out.println(i.but);
+            i.but.setOnAction(new EventHandler<ActionEvent>() {
 
+                @Override
+                public void handle(ActionEvent t) {
+                    
+                   Img aux;
+                    
+                    try {
+                        aux = Img.Duplicar(i);
+                        aux.img.setFitWidth(600);
+                        aux.img.setPreserveRatio(true);
+                        view.getRootPane().setRight(new RightPane(aux));
+                    } catch (FileNotFoundException ex) {
+                       // Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                   
+                    
+                    
+                    
+                }
+            });
+        } 
+            
+            
         }
     }
 }
