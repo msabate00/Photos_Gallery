@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import photogallery_msabate.models.Img;
 
 /**
  *
@@ -29,7 +30,7 @@ import javafx.scene.paint.Color;
 public class CenterPane extends ScrollPane {
 
     private final File[] files;
-    private List<ImageView> img = new ArrayList<ImageView>();
+    private List<Img> img = new ArrayList<Img>();
     private FlowPane fp = new FlowPane();
    
 
@@ -50,12 +51,14 @@ public class CenterPane extends ScrollPane {
                     view.setFitWidth(100);
                     view.setFitHeight(100);
 
+                    Img imagen = new Img(view, f.getName(), ((int) f.length()/1000));
+                    
                     //view.getStyleClass().add("imagenes");
-                    view.setStyle("-fx-margin: 50");
+                    //view.setStyle("-fx-margin: 50");
                     //view.maxHeight(300);
                     //view.setPreserveRatio(true);
-                    img.add(view);
-                    fp.getChildren().add(view);
+                    img.add(imagen);
+                    fp.getChildren().add(imagen);
                     
                 }
             }
@@ -76,7 +79,7 @@ public class CenterPane extends ScrollPane {
     public FlowPane getFlowPane(){
         return fp;
     }
-    public List<ImageView> getAllImg(){
+    public List<Img> getAllImg(){
         return img;
     }
 

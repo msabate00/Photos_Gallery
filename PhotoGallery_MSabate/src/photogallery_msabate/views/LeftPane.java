@@ -19,7 +19,7 @@ import javafx.stage.DirectoryChooser;
 public class LeftPane extends StackPane{
    // private DirectoryChooser dir;
     Button selectDir = new Button("Seleccionar Directorio");
-    public LeftPane(String title){
+    public LeftPane(){
         getChildren().add(selectDir);
     }
     

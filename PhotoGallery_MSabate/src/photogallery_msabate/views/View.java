@@ -20,6 +20,7 @@ public class View {
 
     private BorderPane rootPane;
     private LeftPane leftPane;
+    private RightPane rightPane;
     private TopPane topPane;
     private CenterPane centerPane;
     
@@ -30,8 +31,9 @@ public class View {
         rootPane = new BorderPane();
         rootPane.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
       
-        leftPane = new LeftPane("aa");
-        topPane = new TopPane("aa");
+        leftPane = new LeftPane();
+        rightPane = new RightPane();
+        topPane = new TopPane();
         centerPane = new CenterPane(new File("nulo"));
         
        

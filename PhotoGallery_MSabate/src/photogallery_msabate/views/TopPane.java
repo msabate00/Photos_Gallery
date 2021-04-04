@@ -28,7 +28,7 @@ public class TopPane extends GridPane
     private Button selectDir = new Button();
     private Text url = new Text("No hay ninguna ruta seleccionada");
     private Slider slider = new Slider(100, 400, 100);
-    public TopPane(String title){
+    public TopPane(){
         Image img = new Image("photogallery_msabate\\img\\icons\\Selectfolder.png");
         ImageView view = new ImageView(img);
         view.setFitHeight(30);

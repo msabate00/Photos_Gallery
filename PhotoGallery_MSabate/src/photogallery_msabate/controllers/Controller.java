@@ -9,11 +9,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import photogallery_msabate.models.Img;
 import photogallery_msabate.models.Model;
 import photogallery_msabate.views.CenterPane;
+import photogallery_msabate.views.RightPane;
 import photogallery_msabate.views.View;
 
 public class Controller {
@@ -52,25 +56,34 @@ public class Controller {
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
                 try {
-                    List<ImageView> img = view.getScrollPane().getAllImg();
-                    for (ImageView view : img) {
-                        view.setFitHeight((double) t);
-                        view.setFitWidth((double) t);
+                    List<Img> img = view.getScrollPane().getAllImg();
+                    for (Img view : img) {
+                        view.img.setFitHeight((double) t);
+                        view.img.setFitWidth((double) t);
                     }
                 } catch (Exception e) {
 
                 }
-                /*List<ImageView> img = view.getScrollPane().getAllImg();
-               
-                 for(ImageView view : img){
-                 view.setFitHeight((double) t);
-                 view.setFitWidth((double) t);
-                 }*/
-
             }
-
         });
 
+       for(Img i : view.getScrollPane().getAllImg()){
+           
+           
+           i.but.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
+           
+               @Override
+               public void handle(MouseEvent t) {
+                   view.getRootPane().setRight(new RightPane(i));
+                   System.out.print(i.name);
+               }
+           });
+          
+       } 
+        
+       // view.getScrollPane().getAllImg()
+        
+        
     }
 
     private void mostrarExplorador() throws IOException {
