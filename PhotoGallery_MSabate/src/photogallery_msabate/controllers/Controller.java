@@ -90,7 +90,7 @@ public class Controller {
             
             
             for(Img i : view.getScrollPane().getAllImg()){
-                System.out.println(i.but);
+               
             i.but.setOnAction(new EventHandler<ActionEvent>() {
 
                 @Override
