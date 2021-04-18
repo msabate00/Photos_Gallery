@@ -38,7 +38,7 @@ public class RightPane extends VBox{
             getChildren().removeAll();
         }
         
-        titulo = new Text("Nombre: " + i.name + "\n Tamaño: " + String.valueOf(i.size) + " KB");
+        titulo = new Text("Nombre: " + i.getName() + "\n Tamaño: " + String.valueOf(i.getSize()) + " KB");
         titulo.setTextAlignment(TextAlignment.CENTER);
         titulo.setFill(Paint.valueOf("white"));
         titulo.setFont(Font.font("Verdana", FontWeight.LIGHT, 15));
@@ -47,7 +47,7 @@ public class RightPane extends VBox{
         this.setBackground(new Background(new BackgroundFill(Paint.valueOf("black"), CornerRadii.EMPTY, Insets.EMPTY)));
         //i.img.setY(getLayoutY()/2);
         
-        getChildren().addAll(titulo,i.img);
+        getChildren().addAll(titulo,i.getImg());
         
     }
     

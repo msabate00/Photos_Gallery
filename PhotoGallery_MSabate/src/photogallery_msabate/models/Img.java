@@ -22,10 +22,13 @@ import javafx.scene.text.TextAlignment;
  * @author AitramKG
  */
 public class Img extends VBox{
-   public ImageView img;
-   public String name;
-   public int size;
-   public Button but;
+    
+    
+   private Boolean isSelected = false;
+   private ImageView img;
+   private String name;
+   private int size;
+   private Button main, fav;
    private String path;
    
    public Img(ImageView view, String n, int s, String p){
@@ -37,18 +40,37 @@ public class Img extends VBox{
        // Text tname = new Text(this.name); 
        // Text tsize = new Text(String.valueOf(this.size) + " Kb");
         
-        this.setAlignment(Pos.CENTER);
         
-        Button b = new Button();
-        b.setGraphic(view);
-        b.setText(name + "\n" + size + "Kb");
-        b.textAlignmentProperty().set(TextAlignment.CENTER);
-        b.setContentDisplay(ContentDisplay.TOP);
-        but = b;
+        
+       // Button b = new Button();
+        //b.setGraphic(view);
+             
+        //b.setText(name + "\n" + size + "Kb");
+       
+        //b.textAlignmentProperty().set(TextAlignment.CENTER);
+        //b.setContentDisplay(ContentDisplay.TOP);
+        //b.setWrapText(true);
+        
+        Button bf = new Button();
+        bf.setGraphic(new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png")));
+        
+        
+        //main = b;
+        fav = bf;
+        Text t = new Text(getName() + "\n" + getSize() + "Kb");
+        t.setWrappingWidth(100);
+        t.setTextAlignment(TextAlignment.CENTER);
+        
+        
+        
+        
        
         //b.setContentDisplay(ContentDisplay.);
         
-        getChildren().addAll(b);    
+        //getChildren().addAll(b, fav);  
+       setAlignment(Pos.CENTER);
+       getChildren().addAll(view, t);
+         
     }
    public String getPath(){
        return this.path;
@@ -58,11 +80,60 @@ public class Img extends VBox{
       //new ImageView(new Image(i.img))
       ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
       
-      Img aux = new Img(viewaux, i.name, i.size, i.getPath());
+      Img aux = new Img(viewaux, i.getName(), i.getSize(), i.getPath());
       
       return aux;
       
   }
+
+    /**
+     * @return the isSelected
+     */
+    public Boolean IsSelected() {
+        return isSelected;
+    }
+
+    /**
+     * @return the img
+     */
+    public ImageView getImg() {
+        return img;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the size
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * @return the main
+     */
+    public Button getMain() {
+        return main;
+    }
+
+    /**
+     * @return the fav
+     */
+    public Button getFav() {
+        return fav;
+    }
+
+    /**
+     * @param isSelected the isSelected to set
+     */
+    public void setIsSelected(Boolean isSelected) {
+        this.isSelected = isSelected;
+    }
    
    
 }

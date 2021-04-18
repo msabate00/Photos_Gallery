@@ -11,11 +11,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import photogallery_msabate.models.Img;
@@ -62,8 +66,8 @@ public class Controller {
                 try {
                     List<Img> img = view.getScrollPane().getAllImg();
                     for (Img view : img) {
-                        view.img.setFitHeight((double) t);
-                        view.img.setFitWidth((double) t);
+                        view.getImg().setFitHeight((double) t);
+                        view.getImg().setFitWidth((double) t);
                     }
                 } catch (Exception e) {
 
@@ -91,27 +95,60 @@ public class Controller {
             
             for(Img i : view.getScrollPane().getAllImg()){
                
-            i.but.setOnAction(new EventHandler<ActionEvent>() {
+                
+            i.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>(){
 
                 @Override
-                public void handle(ActionEvent t) {
+                public void handle(MouseEvent t) {
+                    Img aux;
                     
-                   Img aux;
+                    for(Img i2 : view.getScrollPane().getAllImg()){
+                        i2.setBackground(Background.EMPTY);
+                        i2.setIsSelected(Boolean.FALSE);
+                    }
+                    i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    i.setIsSelected(Boolean.TRUE);
                     
                     try {
                         aux = Img.Duplicar(i);
-                        aux.img.setFitWidth(600);
-                        aux.img.setPreserveRatio(true);
+                        aux.getImg().setFitWidth(600);
+                        aux.getImg().setPreserveRatio(true);
                         view.getRootPane().setRight(new RightPane(aux));
                     } catch (FileNotFoundException ex) {
                        // Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }
+            
+            });
+            
+            i.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>(){
+
+                @Override
+                public void handle(MouseEvent t) {
                    
+                    if(!i.IsSelected()){
+                       i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4f7e8e"), CornerRadii.EMPTY, Insets.EMPTY)));
+                }   
+                }
+            
+            });
+            i.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>(){
+
+                @Override
+                public void handle(MouseEvent t) {
+                   
+                    //if(i.backgroundProperty().getValue());
                     
+                    if(!i.IsSelected()){
+                        i.setBackground(Background.EMPTY);
+                    }
                     
                     
                 }
+            
             });
+            
+            
         } 
             
             

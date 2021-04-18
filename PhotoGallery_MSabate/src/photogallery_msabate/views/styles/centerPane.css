@@ -7,6 +7,8 @@ and open the template in the editor.
     Created on : 02-abr-2021, 19:23:31
     Author     : AitramKG
 */
-.imagenes{
-    -fx-margin: 20;
+.custom-button {
+    -fx-font: 16px "Serif";
+    -fx-padding: 10;
+    -fx-background-color: #CCFF99;
 }
