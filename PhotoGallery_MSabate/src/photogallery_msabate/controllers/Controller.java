@@ -174,7 +174,6 @@ public class Controller {
 
                                 if (linea.equals(i.getPath())) {
                                     encontrado = true;
-
                                     continue;
                                 }
                                 bw.write(linea + System.getProperty("line.separator"));
@@ -196,7 +195,19 @@ public class Controller {
                                 } catch (IOException ex) {
                                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                                 }
+                            } else {
+
                             }
+                            ImageView star;
+                            
+                            if (i.isFav()) {
+                                star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_yellow.png"));
+                            } else {
+                                star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png"));
+                            }
+                            star.setFitHeight(30);
+                            star.setFitWidth(30);
+                            i.getFav().setGraphic(star);
 
                         } catch (FileNotFoundException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

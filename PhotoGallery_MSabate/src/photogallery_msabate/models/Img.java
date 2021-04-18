@@ -5,8 +5,16 @@
  */
 package photogallery_msabate.models;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -29,26 +37,34 @@ public class Img extends VBox {
     private Button main, fav;
     private String path;
 
-    public Img(ImageView view, String n, int s, String p) {
+    public Img(ImageView view, String n, int s, String p) throws FileNotFoundException {
         img = view;
         name = n;
         size = s;
         path = p;
 
-       // Text tname = new Text(this.name); 
+        // Text tname = new Text(this.name); 
         // Text tsize = new Text(String.valueOf(this.size) + " Kb");
-       // Button b = new Button();
+        // Button b = new Button();
         //b.setGraphic(view);
         //b.setText(name + "\n" + size + "Kb");
         //b.textAlignmentProperty().set(TextAlignment.CENTER);
         //b.setContentDisplay(ContentDisplay.TOP);
         //b.setWrapText(true);
         Button bf = new Button();
-        
-        ImageView star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png"));
+        ImageView star;
+
+        if (this.isFav()) {
+            star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_yellow.png"));
+        } else {
+            star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png"));
+        }
+
         star.setFitHeight(30);
         star.setFitWidth(30);
+
         bf.setGraphic(star);
+
         bf.setMinSize(30, 30);
         bf.setMaxSize(30, 30);
         //main = b;
@@ -60,7 +76,7 @@ public class Img extends VBox {
         //b.setContentDisplay(ContentDisplay.);
         //getChildren().addAll(b, fav);  
         setAlignment(Pos.CENTER);
-        getChildren().addAll(bf,view, t);
+        getChildren().addAll(bf, view, t);
 
     }
 
@@ -76,6 +92,35 @@ public class Img extends VBox {
 
         return aux;
 
+    }
+
+    public Boolean isFav() throws FileNotFoundException {
+
+        FileReader fr = null;
+        File favFile = new File("src\\fav.dat");
+
+        try {
+            fr = new FileReader(favFile.getAbsoluteFile());
+            BufferedReader br = new BufferedReader(fr);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+
+                String trimmedLine = linea.trim();
+
+                if (linea.equals(this.getPath())) {
+                    br.close();
+                    return true;
+                }
+            }
+            br.close();
+            return false;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+        return false;
     }
 
     /**
@@ -109,8 +154,6 @@ public class Img extends VBox {
     /**
      * @return the main
      */
-    
-
     /**
      * @return the fav
      */

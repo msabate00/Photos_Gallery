@@ -53,10 +53,6 @@ public class CenterPane extends ScrollPane {
 
                     Img imagen = new Img(view, f.getName(), ((int) f.length()/1000), f.getAbsolutePath());
                     
-                    //view.getStyleClass().add("imagenes");
-                    //view.setStyle("-fx-margin: 50");
-                    //view.maxHeight(300);
-                    //view.setPreserveRatio(true);
                     img.add(imagen);
                     fp.getChildren().add(imagen);
                     
