@@ -30,6 +30,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import photogallery_msabate.models.Img;
+import photogallery_msabate.models.ImgHBOX;
 import photogallery_msabate.models.Model;
 import photogallery_msabate.views.CenterPane;
 import photogallery_msabate.views.LeftPane;
@@ -51,7 +52,7 @@ public class Controller {
     }
 
     public void initView() {
-
+        ActualizarFav();
     }
 
     public void initController() {
@@ -110,6 +111,10 @@ public class Controller {
                             i2.setBackground(Background.EMPTY);
                             i2.setIsSelected(Boolean.FALSE);
                         }
+                        for (ImgHBOX i2 : view.getLeftPane().getAllImg()) {
+                            i2.setBackground(Background.EMPTY);
+                            i2.setIsSelected(Boolean.FALSE);
+                        }
                         i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
                         i.setIsSelected(Boolean.TRUE);
 
@@ -157,39 +162,37 @@ public class Controller {
                         Boolean encontrado = false;
                         FileReader fr = null;
                         File tempFile = new File("src\\myTempFile.dat");
-                        
-                        
+
                         try {
                             fr = new FileReader(favFile.getAbsoluteFile());
                             BufferedReader br = new BufferedReader(fr);
                             BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
                             String linea;
                             while ((linea = br.readLine()) != null) {
-                                
+
                                 String trimmedLine = linea.trim();
-                                
-                                
+
                                 if (linea.equals(i.getPath())) {
                                     encontrado = true;
-                                    System.out.println(i.getPath());
+
                                     continue;
                                 }
                                 bw.write(linea + System.getProperty("line.separator"));
                             }
-                            
+
                             bw.close();
                             br.close();
                             Files.move(tempFile.toPath(), favFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                             //tempFile.delete();
-                            
+
                             if (!encontrado) {
                                 try {
                                     FileWriter fw = new FileWriter(favFile, true);
                                     PrintWriter pw = new PrintWriter(fw);
                                     pw.println(i.getPath());
-                                    
+
                                     fw.close();
-                                    
+
                                 } catch (IOException ex) {
                                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -199,25 +202,27 @@ public class Controller {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (IOException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                        }finally{
-                            try{
-                               if(null != fr){
-                                   fr.close();
-                               }
-                            }catch(Exception e){
+                        } finally {
+                            try {
+                                if (null != fr) {
+                                    fr.close();
+                                }
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                           
-                        
+
                         }
-                        
 
                         try {
-                            view.getRootPane().setLeft(new LeftPane());
+                            LeftPane lp = new LeftPane();
+                            view.getRootPane().setLeft(lp);
+                            view.setLeftpane(lp);
+                            ActualizarFav();
+
                         } catch (IOException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        
+
                     }
 
                 });
@@ -226,6 +231,68 @@ public class Controller {
 
         }
     }
-    
-   
+
+    private void ActualizarFav() {
+
+        for (ImgHBOX i : view.getLeftPane().getAllImg()) {
+
+            i.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent t) {
+                    Img aux;
+
+                    for (ImgHBOX i2 : view.getLeftPane().getAllImg()) {
+                        i2.setBackground(Background.EMPTY);
+                        i2.setIsSelected(Boolean.FALSE);
+                    }
+                    for (Img i2 : view.getScrollPane().getAllImg()) {
+                        i2.setBackground(Background.EMPTY);
+                        i2.setIsSelected(Boolean.FALSE);
+                    }
+                    i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    i.setIsSelected(Boolean.TRUE);
+
+                    try {
+                        aux = ImgHBOX.convertToImg(ImgHBOX.Duplicar(i));
+
+                        aux.getImg().setFitWidth(600);
+                        aux.getImg().setPreserveRatio(true);
+                        view.getRootPane().setRight(new RightPane(aux));
+                    } catch (FileNotFoundException ex) {
+                        // Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            });
+
+            i.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent t) {
+
+                    if (!i.IsSelected()) {
+                        i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4f7e8e"), CornerRadii.EMPTY, Insets.EMPTY)));
+                    }
+                }
+
+            });
+            i.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent t) {
+
+                    //if(i.backgroundProperty().getValue());
+                    if (!i.IsSelected()) {
+                        i.setBackground(Background.EMPTY);
+                    }
+
+                }
+
+            });
+
+        }
+
+    }
+
 }

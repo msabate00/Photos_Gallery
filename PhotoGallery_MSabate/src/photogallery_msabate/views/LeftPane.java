@@ -29,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javax.swing.JScrollPane;
 import photogallery_msabate.models.Img;
+import photogallery_msabate.models.ImgHBOX;
 
 /**
  *
@@ -41,13 +42,15 @@ public class LeftPane extends VBox {
     ScrollPane sp = new ScrollPane();
     VBox vp = new VBox();
     File favFile = new File("src\\fav.dat");
-    private List<Img> img = new ArrayList<Img>();
+    private List<ImgHBOX> img = new ArrayList<ImgHBOX>();
 
     public LeftPane() throws FileNotFoundException, IOException {
         setPadding(new Insets(30, 10, 10, 20));
         getChildren().addAll(title, sp);
         setVgrow(sp, Priority.ALWAYS);
         vp.setPadding(new Insets(10,10,10,10));
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         
 
         FileReader fr = new FileReader(favFile);
@@ -55,18 +58,19 @@ public class LeftPane extends VBox {
 
         String path;
         while ((path = br.readLine()) != null) {
-            HBox hp = new HBox();
+            
             File f = new File(path);
             Image image = new Image(new FileInputStream(f));
             ImageView view = new ImageView(image);
             view.setFitWidth(50);
             view.setFitHeight(50);
-            Img imagen = new Img(view, f.getName(), ((int) f.length()/1000), f.getAbsolutePath());
+            ImgHBOX imagen = new ImgHBOX(view, f.getName(), ((int) f.length()/1000), f.getAbsolutePath());
+            /*
             hp.setAlignment(Pos.CENTER_LEFT);
-            hp.getChildren().addAll(imagen.getImg(), new Text(imagen.getName()));
+            hp.getChildren().addAll(imagen.getImg(), new Text(imagen.getName()));*/
             
             img.add(imagen);
-            vp.getChildren().add(hp);
+            vp.getChildren().add(imagen);
         }
         br.close();
         sp.setContent(vp);
@@ -76,7 +80,7 @@ public class LeftPane extends VBox {
     /**
      * @return the img
      */
-    public List<Img> getAllImg() {
+    public List<ImgHBOX> getAllImg() {
         return img;
     }
 

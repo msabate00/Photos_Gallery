@@ -65,6 +65,9 @@ public class View {
         centerPane = cp;
         rootPane.setCenter(centerPane);
     }
+    public void setLeftpane(LeftPane p){
+        leftPane = p;
+    }
     
     public ScrollBar getSc(){
         return sc;
