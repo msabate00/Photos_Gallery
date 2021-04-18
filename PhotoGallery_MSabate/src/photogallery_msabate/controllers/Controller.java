@@ -200,7 +200,6 @@ public class Controller {
                         } catch (IOException ex) {
                             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                         }finally{
-                            
                             try{
                                if(null != fr){
                                    fr.close();
@@ -211,7 +210,14 @@ public class Controller {
                            
                         
                         }
+                        
 
+                        try {
+                            view.getRootPane().setLeft(new LeftPane());
+                        } catch (IOException ex) {
+                            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
                     }
 
                 });

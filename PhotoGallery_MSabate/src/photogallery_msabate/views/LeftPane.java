@@ -68,6 +68,7 @@ public class LeftPane extends VBox {
             img.add(imagen);
             vp.getChildren().add(hp);
         }
+        br.close();
         sp.setContent(vp);
 
     }
