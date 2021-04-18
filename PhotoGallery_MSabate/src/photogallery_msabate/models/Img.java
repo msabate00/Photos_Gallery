@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package photogallery_msabate.models;
 
 import java.io.FileInputStream;
@@ -21,70 +20,63 @@ import javafx.scene.text.TextAlignment;
  *
  * @author AitramKG
  */
-public class Img extends VBox{
-    
-    
-   private Boolean isSelected = false;
-   private ImageView img;
-   private String name;
-   private int size;
-   private Button main, fav;
-   private String path;
-   
-   public Img(ImageView view, String n, int s, String p){
+public class Img extends VBox {
+
+    private Boolean isSelected = false;
+    private ImageView img;
+    private String name;
+    private int size;
+    private Button main, fav;
+    private String path;
+
+    public Img(ImageView view, String n, int s, String p) {
         img = view;
         name = n;
         size = s;
         path = p;
-        
+
        // Text tname = new Text(this.name); 
-       // Text tsize = new Text(String.valueOf(this.size) + " Kb");
-        
-        
-        
+        // Text tsize = new Text(String.valueOf(this.size) + " Kb");
        // Button b = new Button();
         //b.setGraphic(view);
-             
         //b.setText(name + "\n" + size + "Kb");
-       
         //b.textAlignmentProperty().set(TextAlignment.CENTER);
         //b.setContentDisplay(ContentDisplay.TOP);
         //b.setWrapText(true);
-        
         Button bf = new Button();
-        bf.setGraphic(new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png")));
         
-        
+        ImageView star = new ImageView(new Image("photogallery_msabate\\img\\icons\\star_black.png"));
+        star.setFitHeight(30);
+        star.setFitWidth(30);
+        bf.setGraphic(star);
+        bf.setMinSize(30, 30);
+        bf.setMaxSize(30, 30);
         //main = b;
         fav = bf;
         Text t = new Text(getName() + "\n" + getSize() + "Kb");
         t.setWrappingWidth(100);
         t.setTextAlignment(TextAlignment.CENTER);
-        
-        
-        
-        
-       
+
         //b.setContentDisplay(ContentDisplay.);
-        
         //getChildren().addAll(b, fav);  
-       setAlignment(Pos.CENTER);
-       getChildren().addAll(view, t);
-         
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(bf,view, t);
+
     }
-   public String getPath(){
-       return this.path;
-   }
-   
-  public static Img Duplicar(Img i) throws FileNotFoundException{
-      //new ImageView(new Image(i.img))
-      ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
-      
-      Img aux = new Img(viewaux, i.getName(), i.getSize(), i.getPath());
-      
-      return aux;
-      
-  }
+
+    public String getPath() {
+        return this.path;
+    }
+
+    public static Img Duplicar(Img i) throws FileNotFoundException {
+        //new ImageView(new Image(i.img))
+        ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
+
+        Img aux = new Img(viewaux, i.getName(), i.getSize(), i.getPath());
+
+        return aux;
+
+    }
 
     /**
      * @return the isSelected
@@ -117,9 +109,7 @@ public class Img extends VBox{
     /**
      * @return the main
      */
-    public Button getMain() {
-        return main;
-    }
+    
 
     /**
      * @return the fav
@@ -134,6 +124,5 @@ public class Img extends VBox{
     public void setIsSelected(Boolean isSelected) {
         this.isSelected = isSelected;
     }
-   
-   
+
 }
