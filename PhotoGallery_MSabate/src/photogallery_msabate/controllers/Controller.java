@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import photogallery_msabate.models.Img;
 import photogallery_msabate.models.Model;
 import photogallery_msabate.views.CenterPane;
+import photogallery_msabate.views.LeftPane;
 import photogallery_msabate.views.RightPane;
 import photogallery_msabate.views.View;
 
