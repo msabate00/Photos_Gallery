@@ -298,15 +298,15 @@ public class Controller {
 
                 }
 
-               /* try {
-                    LeftPane lp = new LeftPane();
-                    view.getRootPane().setLeft(lp);
-                    view.setLeftpane(lp);
-                    ActualizarFav();
+                /* try {
+                 LeftPane lp = new LeftPane();
+                 view.getRootPane().setLeft(lp);
+                 view.setLeftpane(lp);
+                 ActualizarFav();
 
-                } catch (IOException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
+                 } catch (IOException ex) {
+                 Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                 }*/
                 ActualizarLeftPane();
 
             }
