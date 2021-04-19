@@ -26,7 +26,12 @@ public class TopPane extends GridPane
 {
    // private DirectoryChooser dir;
     private Button selectDir = new Button();
+    
+    private Button moverImg = new Button("Mover Imagenes A Otro Directorio");
+    private Button añadirImgFav = new Button("Añadir Seleccionados a Favoritos");
+    
     private Text url = new Text("No hay ninguna ruta seleccionada");
+   // private Text sliderTxt = new Text("Cambar Tamaño Miniaturas: ");
     private Slider slider = new Slider(100, 400, 100);
     public TopPane(){
         Image img = new Image("photogallery_msabate\\img\\icons\\Selectfolder.png");
@@ -42,10 +47,17 @@ public class TopPane extends GridPane
         
         slider.setPadding(new Insets(0,0,0,50));
         
+        
         setConstraints(view, 0, 0);
         setConstraints(url, 1, 0);
-        setConstraints(slider, 2, 0);
-        getChildren().addAll(selectDir, url, slider);
+       
+        setConstraints(slider, 3, 0);
+        setConstraints(moverImg, 4, 0);
+        setConstraints(añadirImgFav, 5, 0);
+        
+       
+        
+        getChildren().addAll(selectDir, url, slider, moverImg, añadirImgFav);
         
         
         
