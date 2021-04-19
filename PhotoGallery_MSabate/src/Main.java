@@ -13,11 +13,12 @@ public class Main extends Application {
       
         Model m = new Model("Armando", "Bronca", "Segura");
         View v = new View();
-        Controller c = new Controller(m, v, primaryStage);
+        Scene scene = new Scene(v.getRootPane(), 300, 200);
+        Controller c = new Controller(m, v, primaryStage, scene);
         c.initController();
 
         primaryStage.setTitle("Photo Viewer By Marti Sabaté");
-        Scene scene = new Scene(v.getRootPane(), 300, 200);
+        //Scene scene = new Scene(v.getRootPane(), 300, 200);
         
         scene.getStylesheets().add("photogallery_msabate/views/styles/centerPane.css");
         primaryStage.setScene(scene);

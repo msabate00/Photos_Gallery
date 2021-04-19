@@ -79,6 +79,20 @@ public class TopPane extends GridPane
     public Slider getSlider(){
         return slider;
     }
+
+    /**
+     * @return the moverImg
+     */
+    public Button getMoverImg() {
+        return moverImg;
+    }
+
+    /**
+     * @return the añadirImgFav
+     */
+    public Button getAñadirImgFav() {
+        return añadirImgFav;
+    }
     
     
 }
