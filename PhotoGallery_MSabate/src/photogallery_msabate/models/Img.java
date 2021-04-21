@@ -43,14 +43,6 @@ public class Img extends VBox {
         size = s;
         path = p;
 
-        // Text tname = new Text(this.name); 
-        // Text tsize = new Text(String.valueOf(this.size) + " Kb");
-        // Button b = new Button();
-        //b.setGraphic(view);
-        //b.setText(name + "\n" + size + "Kb");
-        //b.textAlignmentProperty().set(TextAlignment.CENTER);
-        //b.setContentDisplay(ContentDisplay.TOP);
-        //b.setWrapText(true);
         Button bf = new Button();
         ImageView star;
 
@@ -84,12 +76,13 @@ public class Img extends VBox {
         return this.path;
     }
 
-    public static Img Duplicar(Img i) throws FileNotFoundException {
+    public static Img Duplicar(Img i) throws FileNotFoundException, IOException {
         //new ImageView(new Image(i.img))
-        ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
+        FileInputStream fs = new FileInputStream(i.getPath());
+        ImageView viewaux = new ImageView(new Image(fs));
 
         Img aux = new Img(viewaux, i.getName(), i.getSize(), i.getPath());
-
+        fs.close();
         return aux;
 
     }

@@ -32,7 +32,12 @@ public class CenterPane extends ScrollPane {
     private final File[] files;
     private List<Img> img = new ArrayList<Img>();
     private FlowPane fp = new FlowPane();
+    private File path;
    
+    
+    public CenterPane(){
+        files = null;
+    }
 
     public CenterPane(File dir) throws IOException {
         
@@ -40,19 +45,23 @@ public class CenterPane extends ScrollPane {
         
         setHbarPolicy(ScrollBarPolicy.NEVER);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        path = dir.getAbsoluteFile();
         files = dir.listFiles();
         if (files != null) {
             
             for (File f : files) {
 
                 if (f.getName().substring(f.getName().lastIndexOf(".") + 1, f.getName().length()).equals("jpg")) {
-                    Image image = new Image(new FileInputStream(f));
+                    
+                    FileInputStream fs = new FileInputStream(f);
+                    
+                    Image image = new Image(fs);
                     ImageView view = new ImageView(image);
                     view.setFitWidth(100);
                     view.setFitHeight(100);
 
                     Img imagen = new Img(view, f.getName(), ((int) f.length()/1000), f.getAbsolutePath());
-                    
+                    fs.close();
                     img.add(imagen);
                     fp.getChildren().add(imagen);
                     
@@ -100,6 +109,13 @@ public class CenterPane extends ScrollPane {
             }
         }
     }*/
+
+    /**
+     * @return the path
+     */
+    public File getPath() {
+        return path;
+    }
 
     
 }

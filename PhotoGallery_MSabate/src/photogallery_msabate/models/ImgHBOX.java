@@ -7,6 +7,7 @@ package photogallery_msabate.models;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
@@ -69,18 +70,26 @@ public class ImgHBOX extends HBox {
         return this.path;
     }
 
-    public static ImgHBOX Duplicar(ImgHBOX i) throws FileNotFoundException {
+    public static ImgHBOX Duplicar(ImgHBOX i) throws FileNotFoundException, IOException {
         //new ImageView(new Image(i.img))
-        ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
+        
+        FileInputStream fs = new FileInputStream(i.getPath());
+        
+        ImageView viewaux = new ImageView(new Image(fs));
 
         ImgHBOX aux = new ImgHBOX(viewaux, i.getName(), i.getSize(), i.getPath());
-
+        
+        fs.close();
         return aux;
 
     }
-    public static Img convertToImg(ImgHBOX i) throws FileNotFoundException{
-        ImageView viewaux = new ImageView(new Image(new FileInputStream(i.getPath())));
+    public static Img convertToImg(ImgHBOX i) throws FileNotFoundException, IOException{
+        FileInputStream fs = new FileInputStream(i.getPath());
+        
+        ImageView viewaux = new ImageView(new Image(fs));
         Img aux = new Img(viewaux, i.getName(), i.getSize(), i.getPath());
+        
+        fs.close();
     return aux;
     }
 

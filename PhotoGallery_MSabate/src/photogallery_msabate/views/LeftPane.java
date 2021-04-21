@@ -60,7 +60,9 @@ public class LeftPane extends VBox {
         while ((path = br.readLine()) != null) {
             
             File f = new File(path);
-            Image image = new Image(new FileInputStream(f));
+            FileInputStream fs = new FileInputStream(f);
+            
+            Image image = new Image(fs);
             ImageView view = new ImageView(image);
             view.setFitWidth(50);
             view.setFitHeight(50);
@@ -68,7 +70,7 @@ public class LeftPane extends VBox {
             /*
             hp.setAlignment(Pos.CENTER_LEFT);
             hp.getChildren().addAll(imagen.getImg(), new Text(imagen.getName()));*/
-            
+            fs.close();
             img.add(imagen);
             vp.getChildren().add(imagen);
         }
