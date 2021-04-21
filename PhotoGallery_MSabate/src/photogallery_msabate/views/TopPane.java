@@ -8,6 +8,7 @@ package photogallery_msabate.views;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -30,7 +31,10 @@ public class TopPane extends GridPane
     private Button moverImg = new Button("Mover Imagenes A Otro Directorio");
     private Button añadirImgFav = new Button("Añadir Seleccionados a Favoritos");
     
+    private CheckBox checkbox = new CheckBox("Mostrar Solo Favoritos");
+    
     private Text url = new Text("No hay ninguna ruta seleccionada");
+    private String urlr;
    // private Text sliderTxt = new Text("Cambar Tamaño Miniaturas: ");
     private Slider slider = new Slider(100, 400, 100);
     public TopPane(){
@@ -47,6 +51,10 @@ public class TopPane extends GridPane
         
         slider.setPadding(new Insets(0,0,0,50));
         
+        checkbox.setSelected(false);
+        //checkbox.setPadding(new Insets(0,0,0,0));
+        
+        
         
         setConstraints(view, 0, 0);
         setConstraints(url, 1, 0);
@@ -54,10 +62,11 @@ public class TopPane extends GridPane
         setConstraints(slider, 3, 0);
         setConstraints(moverImg, 4, 0);
         setConstraints(añadirImgFav, 5, 0);
+        setConstraints(checkbox,6,0);
         
        
         
-        getChildren().addAll(selectDir, url, slider, moverImg, añadirImgFav);
+        getChildren().addAll(selectDir, url, slider, moverImg, añadirImgFav, checkbox);
         
         
         
@@ -71,9 +80,9 @@ public class TopPane extends GridPane
     }
     
     public void actualizarRuta(String r){
-        getChildren().remove(url);
-        url.setText(r);
-        getChildren().add(url);
+        getChildren().remove(getUrl());
+        getUrl().setText(r);
+        getChildren().add(getUrl());
     }
     
     public Slider getSlider(){
@@ -92,6 +101,27 @@ public class TopPane extends GridPane
      */
     public Button getAñadirImgFav() {
         return añadirImgFav;
+    }
+
+    /**
+     * @return the checkbox
+     */
+    public CheckBox getCheckbox() {
+        return checkbox;
+    }
+
+    /**
+     * @return the url
+     */
+    public Text getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(Text url) {
+        this.url = url;
     }
     
     

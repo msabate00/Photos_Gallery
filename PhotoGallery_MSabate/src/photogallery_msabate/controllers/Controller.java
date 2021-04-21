@@ -52,6 +52,7 @@ public class Controller {
     private Stage stage;
     private Scene scene;
     private File favFile = new File("src\\fav.dat");
+    private String actualDir = "";
 
     private boolean pressedSelector = false;
 
@@ -72,6 +73,23 @@ public class Controller {
             pressedSelector = (keyEvent.isShiftDown() || keyEvent.isControlDown());
         });
 
+        view.getTopPane().getCheckbox().setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                try {
+                    
+                    if(!actualDir.equals("")){
+                        view.setCenterPane(new CenterPane(new File(actualDir), favFile, view.getTopPane().getCheckbox().selectedProperty().getValue()));
+                    }
+                   
+                    MostrarImagenesCenter(view.getTopPane().getCheckbox().selectedProperty().getValue());
+                } catch (IOException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
         view.getTopPane().getSelectDir().setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -129,9 +147,9 @@ public class Controller {
         final File selectedDirectory = directoryChooser.showDialog(stage);
 
         if (selectedDirectory != null) {
-            selectedDirectory.getAbsolutePath();
-            CenterPane cp = new CenterPane(selectedDirectory);
-            view.setCenterPane(cp);
+            actualDir = selectedDirectory.getAbsolutePath();
+           // CenterPane cp = new CenterPane(selectedDirectory);
+            view.setCenterPane(new CenterPane(selectedDirectory, favFile, view.getTopPane().getCheckbox().selectedProperty().getValue()));
             //view.getCenterPane().actualizar(selectedDirectory);
             view.getTopPane().actualizarRuta(selectedDirectory.getPath());
             //UpdateController();
@@ -139,86 +157,36 @@ public class Controller {
             //MOSTRAR IMAGENES ******************************************************************************
             //MOSTRAR IMAGENES ******************************************************************************
             //MOSTRAR IMAGENES ******************************************************************************
-            MostrarImagenesCenter();
-           /* for (Img i : view.getScrollPane().getAllImg()) {
-
-                i.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent t) {
-                        Img aux;
-
-                        if (!pressedSelector) {
-                            for (Img i2 : view.getScrollPane().getAllImg()) {
-                                i2.setBackground(Background.EMPTY);
-                                i2.setIsSelected(Boolean.FALSE);
-                            }
-                            for (ImgHBOX i2 : view.getLeftPane().getAllImg()) {
-                                i2.setBackground(Background.EMPTY);
-                                i2.setIsSelected(Boolean.FALSE);
-
-                            }
-                            i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
-                            i.setIsSelected(Boolean.TRUE);
-                        } else {
-                            if (i.IsSelected()) {
-                                i.setBackground(Background.EMPTY);
-                                i.setIsSelected(false);
-                            } else {
-                                i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
-                                i.setIsSelected(Boolean.TRUE);
-                            }
-                        }
-
-                        try {
-                            aux = Img.Duplicar(i);
-                            aux.getImg().setFitWidth(600);
-                            aux.getImg().setPreserveRatio(true);
-                            view.getRootPane().setRight(new RightPane(aux));
-                        } catch (FileNotFoundException ex) {
-                            // Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex) {
-                            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-
-                });
-
-                i.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent t) {
-
-                        if (!i.IsSelected()) {
-                            i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#4f7e8e"), CornerRadii.EMPTY, Insets.EMPTY)));
-                        }
-                    }
-
-                });
-                i.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent t) {
-
-                        //if(i.backgroundProperty().getValue());
-                        if (!i.IsSelected()) {
-                            i.setBackground(Background.EMPTY);
-                        }
-
-                    }
-
-                });
-
-                FavButton(i);
-
-            }*/
+            MostrarImagenesCenter(view.getTopPane().getCheckbox().selectedProperty().getValue());
 
         }
     }
 
-    private void MostrarImagenesCenter() {
+    private void MostrarImagenesCenter(Boolean onlyfav) throws FileNotFoundException, IOException {
 
-        for (Img i : view.getScrollPane().getAllImg()) {
+        List<Img> imgs = new ArrayList<Img>();
+
+        if (onlyfav == true) {
+            for (Img i : view.getScrollPane().getAllImg()) {
+
+                FileReader fr = new FileReader(favFile.getAbsoluteFile());
+                BufferedReader br = new BufferedReader(fr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    if (linea.equals(i.getPath())) {
+                        imgs.add(i);
+                        break;
+                    }
+
+                }
+                br.close();
+
+            }
+        } else {
+            imgs = view.getScrollPane().getAllImg();
+        }
+
+        for (Img i : imgs) {
 
             i.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
@@ -227,7 +195,7 @@ public class Controller {
                     Img aux;
 
                     if (!pressedSelector) {
-                        
+
                         for (Img i2 : view.getScrollPane().getAllImg()) {
                             i2.setBackground(Background.EMPTY);
                             i2.setIsSelected(Boolean.FALSE);
@@ -241,13 +209,13 @@ public class Controller {
                         i.setIsSelected(Boolean.TRUE);
                     } else {
                         if (i.IsSelected()) {
-                            
+
                             i.setBackground(Background.EMPTY);
                             i.setIsSelected(false);
                         } else {
                             i.setBackground(new Background(new BackgroundFill(Paint.valueOf("#796272"), CornerRadii.EMPTY, Insets.EMPTY)));
                             i.setIsSelected(true);
-                         
+
                         }
                     }
 
@@ -376,7 +344,7 @@ public class Controller {
                             }
                             bw.write(linea + System.getProperty("line.separator"));
                         }
-                        
+
                         bw.close();
                         br.close();
                         Files.move(tempFile.toPath(), favFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -393,21 +361,21 @@ public class Controller {
                 }
 
             }
-            
+
             view.setCenterPane(new CenterPane());
 
             for (File f : paths) {
-               // System.out.println(f);
+                // System.out.println(f);
                 String newPath = selectedDirectory.getAbsolutePath() + "\\" + f.getName();
                 String oldPath = f.getAbsolutePath();
                 Files.copy(f.toPath(), new File(newPath).toPath());
 
                 Files.delete(f.toPath());
             }
-            
-            view.setCenterPane(new CenterPane(path));
+//CenterPane(File dir, File favFile, boolean b)
+            view.setCenterPane(new CenterPane(path, favFile, view.getTopPane().getCheckbox().selectedProperty().getValue()));
             ActualizarLeftPane();
-            MostrarImagenesCenter();
+            MostrarImagenesCenter(view.getTopPane().getCheckbox().selectedProperty().getValue());
             // paths.forEach((a) -> Files.move(a.toPath(), new File(selectedDirectory.getAbsolutePath() + "\\" + a.getName()).toPath()));
         } else {
 
@@ -582,6 +550,32 @@ public class Controller {
             });
 
         }
+
+    }
+
+    private List<Img> getImg(boolean b) throws FileNotFoundException, IOException {
+        List<Img> imgs = new ArrayList<Img>();
+
+        if (b == true) {
+            for (Img i : view.getScrollPane().getAllImg()) {
+
+                FileReader fr = new FileReader(favFile.getAbsoluteFile());
+                BufferedReader br = new BufferedReader(fr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    if (linea.equals(i.getPath())) {
+                        imgs.add(i);
+                        break;
+                    }
+
+                }
+                br.close();
+
+            }
+        } else {
+            imgs = view.getScrollPane().getAllImg();
+        }
+        return imgs;
 
     }
 
